@@ -33,7 +33,7 @@ describe('node-weixin-request node module', function () {
       email: 'pedro.teixeira@gmail.com'
     };
 
-    var couchdb = nock(url)
+     nock(url)
       .post('/')
       .reply(200, reply);
     nodeWeixinRequest.request(url, {}, function(error, body) {
@@ -56,11 +56,11 @@ describe('node-weixin-request node module', function () {
       email: 'pedro.teixeira@gmail.com'
     };
 
-    var couchdb = nock(url)
+    nock(url)
       .get('hello/')
       .reply(200, reply);
 
-    nodeWeixinRequest.request(url, {}, function(error, body) {
+    nodeWeixinRequest.request(url, {}, function(error) {
       assert.equal(true, error === true);
       done();
     });
@@ -80,7 +80,7 @@ describe('node-weixin-request node module', function () {
       email: 'pedro.teixeira@gmail.com'
     };
 
-    var couchdb = nock(url)
+    nock(url)
       .post('/')
       .reply(200, reply);
     nodeWeixinRequest.json(url, JSON.stringify(json), function(error, body) {
@@ -107,10 +107,10 @@ describe('node-weixin-request node module', function () {
       email: 'pedro.teixeira@gmail.com'
     };
 
-    var couchdb = nock(url)
+   nock(url)
       .get('/')
       .reply(200, reply);
-    nodeWeixinRequest.json(url, JSON.stringify(json), function(error, body) {
+    nodeWeixinRequest.json(url, JSON.stringify(json), function(error) {
       assert.equal(true, error === true);
       done();
     });
