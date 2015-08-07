@@ -4,20 +4,6 @@ var fs = require("fs");
 var xml2json = require('xml2json');
 
 module.exports = {
-  /**
-   * Marshalling params
-   *
-   * @param params
-   * @returns {string}
-   */
-  toParam: function (params) {
-    params = params || {};
-    var keys = [];
-    for (var k in params) {
-      keys.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k]));
-    }
-    return keys.join('&');
-  },
 
   /**
    * For normal requests
