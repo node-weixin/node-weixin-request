@@ -47,6 +47,7 @@ module.exports = {
    * @param cb
    */
   xml: function (url, xml, cb) {
+    console.log(xml);
     request.post({
       url: url, body: xml, headers: {'Content-Type': 'text/xml'}
     }, function (error, response, body) {
