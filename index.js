@@ -47,7 +47,6 @@ module.exports = {
    * @param cb
    */
   xml: function (url, xml, cb) {
-    console.log(xml);
     request.post({
       url: url, body: xml, headers: {'Content-Type': 'text/xml'}
     }, function (error, response, body) {
@@ -68,22 +67,18 @@ module.exports = {
 
   /**
    * For xml data posting with ssl
-   *
    * @param url
-   * @param data
+   * @param xml
+   * @param ssl
    * @param cb
    */
-  xmlssl: function (url, xml, cb, ssl/*, passphrase*/) {
+  xmlssl: function (url, xml, ssl, cb) {
     request.post({
       url: url, body: xml, headers: {'Content-Type': 'text/xml'},
       agentOptions: {
-        cert: ssl.cert,
-        key: ssl.key,
-        /*
-         pfx: ssl.pfx,
-         passphrase: ssl.passphrase || passphrase,
-         securityOptions: 'SSL_OP_NO_SSLv3'
-         */
+        pfx: fs.readFileSync(ssl.pfx),
+        passphrase: ssl.key,
+        securityOptions: 'SSL_OP_NO_SSLv3'
       }
     }, function (error, response, body) {
       if (!error && response.statusCode === 200) {

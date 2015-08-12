@@ -17,7 +17,7 @@ describe('node-weixin-request node module', function () {
     nock(url)
       .post('/')
       .reply(200, reply);
-    nodeWeixinRequest.request(url + "/", {a:1}, function (error, body) {
+    nodeWeixinRequest.request(url + "/", {a: 1}, function (error, body) {
       assert.equal(true, error === false);
       assert.equal(true, body._id === reply._id);
       assert.equal(true, body._rev === reply._rev);
@@ -98,83 +98,83 @@ describe('node-weixin-request node module', function () {
   });
 
   /*
+  it('should be able to request with xml data', function (done) {
+    var nock = require('nock');
+    var url = 'http://domain.com';
+    var fs = require('fs');
+    var path = require('path');
+    var xml = String(fs.readFileSync(path.resolve(__dirname, './sample.xml')));
+    var reply = {
+      _id: '123ABC',
+      _rev: '946B7D1C',
+      username: 'pgte',
+      email: 'pedro.teixeira@gmail.com'
+    };
 
-   it('should be able to request with xml data', function(done) {
-   var nock = require('nock');
-   var url = 'http://domain.com';
-   var fs = require('fs');
-   var path = require('path');
-   var xml = String(fs.readFileSync(path.resolve(__dirname, './sample.xml')));
-   var reply = {
-   _id: '123ABC',
-   _rev: '946B7D1C',
-   username: 'pgte',
-   email: 'pedro.teixeira@gmail.com'
-   };
+    var couchdb = nock(url, {'Content-Type': 'text/xml'})
+      .post('/', xml)
+      .reply(200, reply);
+    nodeWeixinRequest.xml(url, xml, function (error, body) {
+      assert.equal(true, error === false);
+      assert.equal(true, body._id === reply._id);
+      assert.equal(true, body._rev === reply._rev);
+      assert.equal(true, body.username === reply.username);
+      assert.equal(true, body.email === reply.email);
+      done();
+    });
+  });
 
-   var couchdb = nock(url)
-   .post('/')
-   .reply(200, reply);
-   nodeWeixinRequest.xml(url, xml, function(error, body) {
-   assert.equal(true, error === false);
-   assert.equal(true, body._id === reply._id);
-   assert.equal(true, body._rev === reply._rev);
-   assert.equal(true, body.username === reply.username);
-   assert.equal(true, body.email === reply.email);
-   done();
-   });
-   });
 
-   it('should not be able to request with xml data correctly', function(done) {
-   var nock = require('nock');
-   var url = 'http://domain.com';
-   var fs = require('fs');
-   var path = require('path');
-   var xml = fs.readFileSync(path.resolve(__dirname, './sample.xml'));
-   var reply = {
-   _id: '123ABC',
-   _rev: '946B7D1C',
-   username: 'pgte',
-   email: 'pedro.teixeira@gmail.com'
-   };
+  it('should not be able to request with xml data correctly', function (done) {
+    var nock = require('nock');
+    var url = 'http://domain.com';
+    var fs = require('fs');
+    var path = require('path');
+    var xml = fs.readFileSync(path.resolve(__dirname, './sample.xml'));
+    var reply = {
+      _id: '123ABC',
+      _rev: '946B7D1C',
+      username: 'pgte',
+      email: 'pedro.teixeira@gmail.com'
+    };
 
-   var couchdb = nock(url)
-   .get('/')
-   .reply(200, reply);
-   nodeWeixinRequest.xml(url, xml, function(error, body) {
-   assert.equal(true, error === true);
-   done();
-   });
-   });
+    var couchdb = nock(url)
+      .get('/')
+      .reply(200, reply);
+    nodeWeixinRequest.xml(url, xml, function (error, body) {
+      assert.equal(true, error === true);
+      done();
+    });
+  });
 
-   it('should be able to request with xml data and ssl', function(done) {
-   var nock = require('nock');
-   var fs = require('fs');
-   var url = 'http://domain.com';
-   var fs = require('fs');
-   var path = require('path');
-   var xml = String(fs.readFileSync(path.resolve(__dirname, './sample.xml')));
-   var reply = {
-   _id: '123ABC',
-   _rev: '946B7D1C',
-   username: 'pgte',
-   email: 'pedro.teixeira@gmail.com'
-   };
+  it('should be able to request with xml data and ssl', function (done) {
+    var nock = require('nock');
+    var fs = require('fs');
+    var url = 'http://domain.com';
+    var fs = require('fs');
+    var path = require('path');
+    var xml = String(fs.readFileSync(path.resolve(__dirname, './sample.xml')));
+    var reply = {
+      _id: '123ABC',
+      _rev: '946B7D1C',
+      username: 'pgte',
+      email: 'pedro.teixeira@gmail.com'
+    };
 
-   var couchdb = nock(url)
-   .post('/')
-   .reply(200, reply);
-   nodeWeixinRequest.xmlssl(url, xml, function(error, body) {
-   assert.equal(true, error === false);
-   assert.equal(true, body._id === reply._id);
-   assert.equal(true, body._rev === reply._rev);
-   assert.equal(true, body.username === reply.username);
-   assert.equal(true, body.email === reply.email);
-   done();
-   }, {
-   cert: '',
-   key: ''
-   });
-   });
-   */
+    var couchdb = nock(url)
+      .post('/')
+      .reply(200, reply);
+    nodeWeixinRequest.xmlssl(url, xml, function (error, body) {
+      assert.equal(true, error === false);
+      assert.equal(true, body._id === reply._id);
+      assert.equal(true, body._rev === reply._rev);
+      assert.equal(true, body.username === reply.username);
+      assert.equal(true, body.email === reply.email);
+      done();
+    }, {
+      cert: '',
+      key: ''
+    });
+  });
+  */
 });
