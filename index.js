@@ -76,7 +76,7 @@ module.exports = {
     request.post({
       url: url, body: xml, headers: {'Content-Type': 'text/xml'},
       agentOptions: {
-        pfx: fs.readFileSync(ssl.pfx),
+        pfx: fs.readFileSync(ssl.pfx || ssl.pkcs12),
         passphrase: ssl.key,
         securityOptions: 'SSL_OP_NO_SSLv3'
       }
