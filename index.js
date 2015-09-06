@@ -73,13 +73,23 @@ module.exports = {
    * @param cb
    */
   xmlssl: function (url, xml, ssl, cb) {
-    request.post({
-      url: url, body: xml, headers: {'Content-Type': 'text/xml'},
-      agentOptions: {
+    var options = {};
+    if (ssl.pfx && ssl.pfxKey) {
+      options = {
+        pfx: ssl.pfx,
+        passphrase: ssl.pfxKey,
+        securityOptions: 'SSL_OP_NO_SSLv3'
+      };
+    } else {
+      options = {
         pfx: fs.readFileSync(ssl.pfx || ssl.pkcs12),
         passphrase: ssl.key,
         securityOptions: 'SSL_OP_NO_SSLv3'
-      }
+      };
+    }
+    request.post({
+      url: url, body: xml, headers: {'Content-Type': 'text/xml'},
+      agentOptions: options
     }, function (error, response, body) {
       if (!error && response.statusCode === 200) {
         var json = null;

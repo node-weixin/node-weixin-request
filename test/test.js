@@ -97,33 +97,23 @@ describe('node-weixin-request node module', function () {
     });
   });
 
-  /*
   it('should be able to request with xml data', function (done) {
     var nock = require('nock');
     var url = 'http://domain.com';
     var fs = require('fs');
     var path = require('path');
     var xml = String(fs.readFileSync(path.resolve(__dirname, './sample.xml')));
-    var reply = {
-      _id: '123ABC',
-      _rev: '946B7D1C',
-      username: 'pgte',
-      email: 'pedro.teixeira@gmail.com'
-    };
-
-    var couchdb = nock(url, {'Content-Type': 'text/xml'})
+    nock(url, {'Content-Type': 'text/xml'})
       .post('/', xml)
-      .reply(200, reply);
+      .reply(200, xml);
     nodeWeixinRequest.xml(url, xml, function (error, body) {
       assert.equal(true, error === false);
-      assert.equal(true, body._id === reply._id);
-      assert.equal(true, body._rev === reply._rev);
-      assert.equal(true, body.username === reply.username);
-      assert.equal(true, body.email === reply.email);
+      assert.equal(true, body.scale === 100);
+      assert.equal(true, body.alpha === 10101);
+      assert.equal(true, body.name === '一样的');
       done();
     });
   });
-
 
   it('should not be able to request with xml data correctly', function (done) {
     var nock = require('nock');
@@ -131,50 +121,51 @@ describe('node-weixin-request node module', function () {
     var fs = require('fs');
     var path = require('path');
     var xml = fs.readFileSync(path.resolve(__dirname, './sample.xml'));
-    var reply = {
-      _id: '123ABC',
-      _rev: '946B7D1C',
-      username: 'pgte',
-      email: 'pedro.teixeira@gmail.com'
-    };
 
-    var couchdb = nock(url)
+    nock(url)
       .get('/')
-      .reply(200, reply);
-    nodeWeixinRequest.xml(url, xml, function (error, body) {
+      .reply(200, xml);
+    nodeWeixinRequest.xml(url, xml, function (error) {
       assert.equal(true, error === true);
       done();
     });
   });
 
-  it('should be able to request with xml data and ssl', function (done) {
+  it("should be able to post ssl data", function(done) {
     var nock = require('nock');
-    var fs = require('fs');
-    var url = 'http://domain.com';
-    var fs = require('fs');
-    var path = require('path');
-    var xml = String(fs.readFileSync(path.resolve(__dirname, './sample.xml')));
-    var reply = {
-      _id: '123ABC',
-      _rev: '946B7D1C',
-      username: 'pgte',
-      email: 'pedro.teixeira@gmail.com'
+    var url = 'https://domain.com';
+    var ssl = {
+      pfx: 'sfosfosofsfsofd',
+      pfxKey: 'sodosodf'
     };
+    var reply = "<xml><data>aodsosfd</data></xml>";
 
-    var couchdb = nock(url)
+    nock(url)
       .post('/')
       .reply(200, reply);
-    nodeWeixinRequest.xmlssl(url, xml, function (error, body) {
+    nodeWeixinRequest.xmlssl(url, '<xml></xml>', ssl, function (error, json) {
       assert.equal(true, error === false);
-      assert.equal(true, body._id === reply._id);
-      assert.equal(true, body._rev === reply._rev);
-      assert.equal(true, body.username === reply.username);
-      assert.equal(true, body.email === reply.email);
+      assert.equal(true, json.data === 'aodsosfd');
       done();
-    }, {
-      cert: '',
-      key: ''
     });
   });
-  */
+
+  it("should be able to post ssl data", function(done) {
+    var nock = require('nock');
+    var url = 'https://domain.com';
+    var ssl = {
+      pfx: 'sfosfosofsfsofd',
+      pfxKey: 'sodosodf'
+    };
+    var reply = "<xml><data>aodsosfd</data></xml>";
+
+    nock(url)
+      .post('/')
+      .reply(200, reply);
+    nodeWeixinRequest.xmlssl(url, '<xml></xml>', ssl, function (error, json) {
+      assert.equal(true, error === false);
+      assert.equal(true, json.data === 'aodsosfd');
+      done();
+    });
+  });
 });
