@@ -108,8 +108,8 @@ describe('node-weixin-request node module', function () {
       .reply(200, xml);
     nodeWeixinRequest.xml(url, xml, function (error, body) {
       assert.equal(true, error === false);
-      assert.equal(true, body.scale === 100);
-      assert.equal(true, body.alpha === 10101);
+      assert.equal(true, body.scale === '100');
+      assert.equal(true, body.alpha === '10101.00');
       assert.equal(true, body.name === '一样的');
       done();
     });
