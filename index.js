@@ -57,7 +57,7 @@ module.exports = {
           cb(false, json.xml);
         } catch (e) {
           console.log(e);
-          throw e;
+          cb(true, e);
         }
       } else {
         cb(true, {message: body});
@@ -98,7 +98,7 @@ module.exports = {
           cb(false, json.xml);
         } catch (e) {
           console.log(e);
-          throw e;
+          cb(true, e);
         }
       } else {
         cb(true, {message: body});
