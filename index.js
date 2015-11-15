@@ -116,7 +116,7 @@ module.exports = {
   file: function (url, file, cb) {
     fs.stat(file, function (err) {
       if (err) {
-        return cb(true, {message: 'File not exist'});
+        return cb(true, {message: 'File not exist!'});
       }
       var media = fs.createReadStream(file);
       request.post({

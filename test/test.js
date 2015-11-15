@@ -245,4 +245,82 @@ describe('node-weixin-request node module', function () {
       done();
     });
   });
+
+  it("should not be able to post xml data", function (done) {
+    var nock = require('nock');
+    var url = 'https://domain.com';
+
+    nock(url)
+      .post('/')
+      .reply(200, 'sdfosffd');
+    nodeWeixinRequest.xml(url, '<xml><a>sfdsf<sdf>sdfosd</sdf></a></xml>', function (error) {
+      assert.equal(true, error);
+      done();
+    });
+  });
+
+  it("should not be able to post file", function (done) {
+    var nock = require('nock');
+    var url = 'https://domain.com';
+    var path = require('path');
+    var file = path.resolve(__dirname, './cert/none.p12');
+
+    nock(url)
+      .post('/')
+      .reply(200, 'sdfosffd');
+    nodeWeixinRequest.file(url, file, function (error, json) {
+      assert.equal(true, error);
+      assert.equal(true, json.message === "File not exist!");
+      done();
+    });
+  });
+
+  it("should be able to post file", function (done) {
+    var nock = require('nock');
+    var url = 'https://domain.com';
+    var path = require('path');
+    var file = path.resolve(__dirname, './cert/a.p12');
+
+    nock(url)
+      .post('/')
+      .reply(200, 'sdfosffd');
+    nodeWeixinRequest.file(url, file, function (error, json) {
+      assert.equal(true, !error);
+      assert.equal(true, json === "sdfosffd");
+      done();
+    });
+  });
+
+  it("should not be able to post file", function (done) {
+    var nock = require('nock');
+    var url = 'https://domain1.com';
+    var path = require('path');
+    var file = path.resolve(__dirname, './cert/a.p12');
+
+    nock(url)
+      .post('/')
+      .reply(500, 'sdfosffd');
+    nodeWeixinRequest.file(url, file, function (error, json) {
+      assert.equal(true, error);
+      assert.equal(true, json.message === "sdfosffd");
+      done();
+    });
+  });
+
+  it("should not be able to download file", function (done) {
+    var nock = require('nock');
+    var url = 'https://download.domain.com';
+    var path = require('path');
+    var fs = require('fs');
+    var file = path.resolve(__dirname, './cert/a.p12');
+    var file1 = path.resolve(__dirname, './output/new.p12');
+
+    nock(url)
+      .get('/')
+      .reply(200, fs.createWriteStream(file));
+    nodeWeixinRequest.download(url, {hel:'sdfsfd'}, file1, function () {
+      assert.equal(true, true);
+      done();
+    });
+  });
 });
