@@ -313,12 +313,10 @@ describe('node-weixin-request node module', function () {
     var path = require('path');
     var fs = require('fs');
     var file = path.resolve(__dirname, './cert/a.p12');
-    var file1 = path.resolve(__dirname, './output/new.p12');
-
     nock(url)
       .get('/')
       .reply(200, fs.createWriteStream(file));
-    nodeWeixinRequest.download(url, {hel:'sdfsfd'}, file1, function () {
+    nodeWeixinRequest.download(url, {hel:'sdfsfd'}, file, function () {
       assert.equal(true, true);
       done();
     });
