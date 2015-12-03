@@ -4,6 +4,8 @@ var fs = require("fs");
 var xml2js = require('xml2js');
 
 module.exports = {
+  raw: request,
+  get: request.get,
 
   /**
    * For normal requests
