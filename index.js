@@ -1,7 +1,7 @@
 'use strict';
 var request = require('request');
 var fs = require("fs");
-var xml2json = require('xml2json');
+var xml2js = require('xml2js');
 
 module.exports = {
 
@@ -51,14 +51,14 @@ module.exports = {
       url: url, body: xml, headers: {'Content-Type': 'text/xml'}
     }, function (error, response, body) {
       if (!error && response.statusCode === 200) {
-        var json = null;
-        try {
-          json = JSON.parse(xml2json.toJson(body));
+        xml2js.parseString(body, {
+          explicitArray: false, ignoreAttrs: true
+        }, function (error, json) {
+          if (error) {
+            return cb(true, new Error(body));
+          }
           cb(false, json.xml);
-        } catch (e) {
-          console.log(e);
-          cb(true, e);
-        }
+        });
       } else {
         cb(true, {message: body});
       }
@@ -92,14 +92,14 @@ module.exports = {
       agentOptions: options
     }, function (error, response, body) {
       if (!error && response.statusCode === 200) {
-        var json = null;
-        try {
-          json = JSON.parse(xml2json.toJson(body));
+        xml2js.parseString(body, {
+          explicitArray: false, ignoreAttrs: true
+        }, function (error, json) {
+          if (error) {
+            return cb(true, new Error(body));
+          }
           cb(false, json.xml);
-        } catch (e) {
-          console.log(e);
-          cb(true, e);
-        }
+        });
       } else {
         cb(true, {message: body});
       }
