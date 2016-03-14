@@ -1,9 +1,8 @@
 'use strict';
 var assert = require('assert');
-var nodeWeixinRequest = require('../');
+var nodeWeixinRequest = require('../lib');
 
 describe('node-weixin-request node module', function () {
-
   it('should be able to request correctly', function (done) {
     var nock = require('nock');
     var url = 'http://domain.com';
@@ -17,7 +16,7 @@ describe('node-weixin-request node module', function () {
     nock(url)
       .post('/')
       .reply(200, reply);
-    nodeWeixinRequest.request(url + "/", {a: 1}, function (error, body) {
+    nodeWeixinRequest.request(url + '/', {a: 1}, function (error, body) {
       assert.equal(true, error === false);
       assert.equal(true, body._id === reply._id);
       assert.equal(true, body._rev === reply._rev);
@@ -146,15 +145,14 @@ describe('node-weixin-request node module', function () {
       done();
     });
   });
-
-  it("should be able to post ssl data", function (done) {
+  it('should be able to post ssl buffer data', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
     var ssl = {
-      pfx: 'sfosfosofsfsofd',
+      pfx: new Buffer('sfosfosofsfsofd'),
       pfxKey: 'sodosodf'
     };
-    var reply = "<xml><data>aodsosfd</data></xml>";
+    var reply = '<xml><data>aodsosfd</data></xml>';
 
     nock(url)
       .post('/')
@@ -166,14 +164,14 @@ describe('node-weixin-request node module', function () {
     });
   });
 
-  it("should be able to post ssl data", function (done) {
+  it('should be able to post ssl data', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
     var ssl = {
       pfx: 'sfosfosofsfsofd',
       pfxKey: 'sodosodf'
     };
-    var reply = "<xml><data>aodsosfd</data></xml>";
+    var reply = '<xml><data>aodsosfd</data></xml>';
 
     nock(url)
       .post('/')
@@ -185,7 +183,26 @@ describe('node-weixin-request node module', function () {
     });
   });
 
-  it("should be able to post ssl data", function (done) {
+  it('should be able to post ssl data', function (done) {
+    var nock = require('nock');
+    var url = 'https://domain.com';
+    var ssl = {
+      pfx: 'sfosfosofsfsofd',
+      pfxKey: 'sodosodf'
+    };
+    var reply = '<xml><data>aodsosfd</data></xml>';
+
+    nock(url)
+      .post('/')
+      .reply(200, reply);
+    nodeWeixinRequest.xmlssl(url, '<xml></xml>', ssl, function (error, json) {
+      assert.equal(true, error === false);
+      assert.equal(true, json.data === 'aodsosfd');
+      done();
+    });
+  });
+
+  it('should be able to post ssl data', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
     var path = require('path');
@@ -194,7 +211,7 @@ describe('node-weixin-request node module', function () {
       pkcs12: file,
       pfxKey: 'sodosodf'
     };
-    var reply = "<xml><data>aodsosfd</data></xml>";
+    var reply = '<xml><data>aodsosfd</data></xml>';
 
     nock(url)
       .post('/')
@@ -206,7 +223,7 @@ describe('node-weixin-request node module', function () {
     });
   });
 
-  it("should not be able to post ssl data", function (done) {
+  it('should not be able to post ssl data', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
     var path = require('path');
@@ -221,12 +238,12 @@ describe('node-weixin-request node module', function () {
       .reply(200, 'sfdsfdf');
     nodeWeixinRequest.xmlssl(url, '<xml></xml>', ssl, function (error, exception) {
       assert.equal(true, error);
-      assert.equal(true, exception instanceof  Error);
+      assert.equal(true, exception instanceof Error);
       done();
     });
   });
 
-  it("should be able to post ssl data", function (done) {
+  it('should be able to post ssl data', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
     var path = require('path');
@@ -246,7 +263,7 @@ describe('node-weixin-request node module', function () {
     });
   });
 
-  it("should not be able to post xml data", function (done) {
+  it('should not be able to post xml data', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
 
@@ -259,7 +276,7 @@ describe('node-weixin-request node module', function () {
     });
   });
 
-  it("should not be able to post file", function (done) {
+  it('should not be able to post file', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
     var path = require('path');
@@ -270,12 +287,12 @@ describe('node-weixin-request node module', function () {
       .reply(200, 'sdfosffd');
     nodeWeixinRequest.file(url, file, function (error, json) {
       assert.equal(true, error);
-      assert.equal(true, json.message === "File not exist!");
+      assert.equal(true, json.message === 'File not exist!');
       done();
     });
   });
 
-  it("should be able to post file", function (done) {
+  it('should be able to post file', function (done) {
     var nock = require('nock');
     var url = 'https://domain.com';
     var path = require('path');
@@ -286,12 +303,12 @@ describe('node-weixin-request node module', function () {
       .reply(200, 'sdfosffd');
     nodeWeixinRequest.file(url, file, function (error, json) {
       assert.equal(true, !error);
-      assert.equal(true, json === "sdfosffd");
+      assert.equal(true, json === 'sdfosffd');
       done();
     });
   });
 
-  it("should not be able to post file", function (done) {
+  it('should not be able to post file', function (done) {
     var nock = require('nock');
     var url = 'https://domain1.com';
     var path = require('path');
@@ -302,12 +319,12 @@ describe('node-weixin-request node module', function () {
       .reply(500, 'sdfosffd');
     nodeWeixinRequest.file(url, file, function (error, json) {
       assert.equal(true, error);
-      assert.equal(true, json.message === "sdfosffd");
+      assert.equal(true, json.message === 'sdfosffd');
       done();
     });
   });
 
-  it("should not be able to download file", function (done) {
+  it('should not be able to download file', function (done) {
     var nock = require('nock');
     var url = 'https://download.domain.com';
     var path = require('path');
@@ -316,7 +333,7 @@ describe('node-weixin-request node module', function () {
     nock(url)
       .get('/')
       .reply(200, fs.createWriteStream(file));
-    nodeWeixinRequest.download(url, {hel:'sdfsfd'}, file, function () {
+    nodeWeixinRequest.download(url, {hel: 'sdfsfd'}, file, function () {
       assert.equal(true, true);
       done();
     });

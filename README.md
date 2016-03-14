@@ -1,16 +1,14 @@
-#  [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coveralls Status][coveralls-image]][coveralls-url]
+# node-weixin-request [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+>
 
-> Requests for weixin apis
-
-
-## Install
+## Installation
 
 ```sh
 $ npm install --save node-weixin-request
 ```
 
-
 ## Usage
+
 
 ```js
 var nodeWeixinRequest = require('node-weixin-request');
@@ -55,9 +53,16 @@ var ssl = {
 
 //ssl格式2
 var ssl = {
-  pkcs12: file,  //全局文件名
+  pfx: 'p12文件的base64',
   pfxKey: 'sodosodf'
 };
+
+// 已经废弃
+// ssl格式3
+// var ssl = {
+//   pkcs12: file,  //全局文件名
+//   pfxKey: 'sodosodf'
+// };
 
 var reply = "<xml><data>aodsosfd</data></xml>";
 
@@ -80,10 +85,9 @@ nodeWeixinRequest.download(url, {hel:'sdfsfd'}, file, function (error, json) {
 
 ```
 
-
 ## License
 
-MIT © [node-weixin](blog.3gcnbeta.com)
+Apache-2.0 © [calidion](calidion.github.io)
 
 
 [npm-image]: https://badge.fury.io/js/node-weixin-request.svg
@@ -92,5 +96,5 @@ MIT © [node-weixin](blog.3gcnbeta.com)
 [travis-url]: https://travis-ci.org/node-weixin/node-weixin-request
 [daviddm-image]: https://david-dm.org/node-weixin/node-weixin-request.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/node-weixin/node-weixin-request
-[coveralls-image]: https://coveralls.io/repos/node-weixin/node-weixin-request/badge.svg?branch=master&service=github
-[coveralls-url]: https://coveralls.io/github/node-weixin/node-weixin-request?branch=master
+[coveralls-image]: https://coveralls.io/repos/node-weixin/node-weixin-request/badge.svg
+[coveralls-url]: https://coveralls.io/r/node-weixin/node-weixin-request
